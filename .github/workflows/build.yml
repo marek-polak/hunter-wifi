@@ -1,0 +1,19 @@
+name: PlatformIO
+
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: PlatformIO Run
+        uses: karniv00l/platformio-run-action@v1
+        with:
+          environments: "d1_mini"
+          targets: "d1_mini_pro"
+          project-dir: "./esp8266-hunter-sprinkler"
+          silent: false
+          verbose: true
+          disable-auto-clean: false
