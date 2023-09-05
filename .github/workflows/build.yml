@@ -9,9 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./esp8266-hunter-sprinkler
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -20,6 +17,8 @@ jobs:
         with:
           environments: "d1_mini"
           targets: "d1_mini_pro"
+          project-dir: "./esp8266-hunter-sprinkler"
+          project-conf: "./esp8266-hunter-sprinkler/platformio.ini"
           silent: false
           verbose: true
           disable-auto-clean: false
