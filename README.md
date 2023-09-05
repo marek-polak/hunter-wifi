@@ -46,6 +46,29 @@ Wiring is displayed on following diagram (obtained from [loullingen.lu](https://
  ![XCORE 401 - actual setup](/docs/images/hunter-xcore-401-actual-setup.jpg "XCORE 401 - actual setup")
 
 
+## Integration into Home Assistant:
+
+Integration is based on [this post](https://community.home-assistant.io/t/irrigation-hunter-x-core-remote-control-using-rem-pin/320786/21)
+and enables controlling the Hunter from Home Assistant interface.
+
+### Features:
+ - select zone and set irrigation time
+ - trigger/toggle irrigation of selected zone
+ - display countdown (remaining irrigation time)
+ - display active zone
+ - displays MQTT response from controller
+
+Detailed infos how to setup sensors, automation and ui si defined [here](docs/pages/homeassistant_setup.md).
+
+
+### Showcase:
+
+⠀                          |             ⠀
+:-------------------------:|:-------------------------:
+![zone 3 running](/docs/images/ha/ha_integration_3.png "Home Assistant - zone 3 irrigation running") | ![zone 3 stopped](/docs/images/ha/ha_integration_4.png "Home Assistant - zone 3 stopped, irrigation idle")
+![zone 1 selected](/docs/images/ha/ha_integration_1.png "Home Assistant - zone 1 selected") | ![select zone](/docs/images/ha/ha_integration_2.png "Home Assistant - choose zone from dropdown")
+
+
 
 
 ----  
