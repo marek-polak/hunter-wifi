@@ -17,8 +17,7 @@ jobs:
         with:
           environments: "d1_mini"
           targets: "d1_mini_pro"
-          project-dir: "./esp8266-hunter-sprinkler"
-          project-conf: "./esp8266-hunter-sprinkler/platformio.ini"
+          project-dir: "esp8266-hunter-sprinkler"
           silent: false
           verbose: true
           disable-auto-clean: false
