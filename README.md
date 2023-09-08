@@ -13,13 +13,15 @@ This is a fork of [@Ecodina](https://ecodina.github.io/hunter-wifi)'s repository
 
 ## Software installation
 
-Easiest way to install was through [esphome.io](https://web.esphome.io/?dashboard_install) website. Just connect the board using usb cable to the PC, select serial device and upload the binary file to the board. 
+Easiest way to install was through [esphome.io](https://web.esphome.io/?dashboard_install) website. Just connect the board using usb cable to the PC, select serial device and upload the [binary file](https://github.com/ecodina/hunter-wifi/releases/tag/v1.0.0) to the board.
+
+> Current master doesn't seem to be working properly, either web-interface, nor mqtt. So for the time being, stick with v1.0.0 - https://github.com/ecodina/hunter-wifi/releases/tag/v1.0.0
 
 After startup, connect to the `WateringSystemAP` and setup up the WIFI & MQTT credentials:
 
 ```
-# MQTT server URL
-server: 'mqtt://172.17.0.1'
+# MQTT server URL, local DNS name can be used
+server: 'raspi3b.local'
 
 # MQTT server authentication
 user: mqtt_user
