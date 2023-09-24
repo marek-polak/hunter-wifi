@@ -1,0 +1,77 @@
+type: vertical-stack
+cards:
+  - type: custom:mushroom-title-card
+    title: Irrigation
+  - type: horizontal-stack
+    cards:
+      - type: custom:mushroom-select-card
+        entity: input_select.irrigate_zone
+        icon: mdi:sprinkler
+        name: Zone
+      - type: conditional
+        conditions:
+          - entity: sensor.irrigate_map_zone
+            state: "1"
+        card:
+          type: custom:mushroom-number-card
+          entity: input_number.irrigate_timer_1
+          name: Duration
+          primary_info: name
+          tap_action:
+            action: none
+          hold_action:
+            action: none
+          double_tap_action:
+            action: none
+      - type: conditional
+        conditions:
+          - entity: sensor.irrigate_map_zone
+            state: "2"
+        card:
+          type: custom:mushroom-number-card
+          entity: input_number.irrigate_timer_2
+          name: Duration
+          primary_info: name
+          tap_action:
+            action: none
+          hold_action:
+            action: none
+          double_tap_action:
+            action: none
+      - type: conditional
+        conditions:
+          - entity: sensor.irrigate_map_zone
+            state: "3"
+        card:
+          type: custom:mushroom-number-card
+          entity: input_number.irrigate_timer_3
+          name: Duration
+          primary_info: name
+          tap_action:
+            action: none
+          hold_action:
+            action: none
+          double_tap_action:
+            action: none
+      - type: conditional
+        conditions:
+          - entity: sensor.irrigate_map_zone
+            state: "4"
+        card:
+          type: custom:mushroom-number-card
+          entity: input_number.irrigate_timer_4
+          name: Duration
+          primary_info: name
+          tap_action:
+            action: none
+          hold_action:
+            action: none
+          double_tap_action:
+            action: none
+  - type: custom:button-card
+    template: mushroom_irrigation
+    entity: switch.irrigate_lawn
+    variables:
+      timer: timer.irrigation_time_remaining
+      active_zone: input_text.irrigation_active_zone
+      response: input_text.zone_action_result

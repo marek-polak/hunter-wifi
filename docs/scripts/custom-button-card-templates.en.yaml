@@ -1,0 +1,174 @@
+button_card_templates:
+  mushroom_card:
+    show_state: true
+    hold_action:
+      action: more-info
+    custom_fields:
+      notification: |
+        [[[
+          if (entity.state =="unavailable"){
+            return `<ha-icon icon="mdi:exclamation" style="width: 12px; height: 12px; color: var(--primary-background-color);"></ha-icon>`
+          }
+        ]]]
+    state:
+      - value: unavailable
+        id: unavail
+        styles:
+          custom_fields:
+            notification:
+              - border-radius: 50%
+              - position: absolute
+              - left: 24px
+              - top: "-2px"
+              - height: 16px
+              - width: 16px
+              - border: 2px solid var(--card-background-color)
+              - font-size: 12px
+              - line-height: 14px
+              - background-color: |
+                  [[[
+                    return "rgba(var(--color-red),1)";
+                  ]]]
+    styles:
+      card:
+        - padding: 12px
+        - "--mdc-ripple-press-opacity": 0
+      grid:
+        - grid-template-areas: '"i n" "i s"'
+        - grid-template-columns: min-content 1fr
+        - grid-template-rows: min-content min-content
+      img_cell:
+        - background-color: rgba(var(--rgb-primary-text-color), 0.05)
+        - border-radius: var(--icon-border-radius)
+        - border-radius: 50%
+        - place-self: flex-start
+        - width: 42px
+        - height: 42px
+        - margin-right: 12px
+      icon:
+        - color: var(--disabled-text-color)
+        - width: 20px
+        - height: 20px
+      name:
+        - justify-self: flex-start
+        - align-self: center
+        - font-size: 14px
+        - font-weight: bold
+        - margin-top: 4px
+        - color: var(--primary-text-color)
+      state:
+        - justify-self: flex-start
+        - align-self: center
+        - font-weight: bolder
+        - font-size: 12px
+        - padding-top: 3px
+        - color: rgb(114,114,114)
+  mushroom_button:
+    variables:
+      color: var(--primary-text-color)
+      background_color: rgba(var(--rgb-primary-text-color), 0.05)
+    styles:
+      card:
+        - box-shadow: none
+        - min-width: 42px
+        - height: 42px
+        - padding: 0
+        - border-radius: 12px
+        - border-width: 0
+        - background-color: "[[[ return variables.background_color ]]]"
+        - color: "[[[ return variables.color ]]]"
+      name:
+        - font-weight: bold
+      icon:
+        - width: 20px
+        - color: "[[[ return variables.color ]]]"
+  debug_text:
+    show_name: true
+    show_icon: false
+    tap_action:
+      action: none
+    styles:
+      card:
+        - box-shadow: none
+        - margin: 12px 0 0 0
+        - padding: 0
+        - border-radius: 0
+        - border-width: 0
+        - "--mdc-ripple-press-opacity": 0
+      grid:
+        - grid-template-areas: i n
+        - grid-template-columns: min-content
+        - grid-template-rows: min-content
+  mushroom_irrigation:
+    template: mushroom_card
+    variables:
+      timer: ""
+      response: ""
+      active_zone: ""
+    name: |
+      [[[
+            if (entity.state =='off')
+              return "Irrigation inactive";
+            else
+              return `Watering zone ${states[variables.active_zone].state}`;
+      ]]]
+    state_display: >
+      [[[ return `<ha-icon icon="mdi:message-text" style="width: 12px; height:
+      12px; color: var(--primary-font-color);"></ha-icon>: ` + 
+          states[variables.response].state;
+      ]]]
+    icon: |
+      [[[
+            if (entity.state =='off'){ return "mdi:water-pump-off";}
+            return "mdi:water-pump";
+      ]]]
+    triggers_update: all
+    styles:
+      grid:
+        - grid-template-areas: '"i n timer switch" "i s timer switch"'
+        - grid-template-columns: min-content 1fr min-content min-content
+        - grid-template-rows: min-content min-content
+    state:
+      - value: "on"
+        styles:
+          img_cell:
+            - background-color: rgba(139,195,74,0.2)
+          icon:
+            - color: rgb(var(--rgb-accent-color))
+    custom_fields:
+      switch:
+        card:
+          type: custom:button-card
+          template: mushroom_button
+          entity: "[[[ return entity.entity_id ]]]"
+          show_name: false
+          icon: >-
+            [[[ return (entity.state!="on") ? "mdi:clock-start" :
+            "mdi:stop-circle-outline" ]]]
+          tap_action:
+            action: toggle
+          variables:
+            background_color: rgba(255, 87, 34, 0.2)
+            color: '[[[ return (entity.state!="on") ? "orange" : "red" ]]]'
+      timer:
+        card:
+          type: custom:button-card
+          entity: "[[[ return variables.timer; ]]]"
+          show_name: false
+          show_icon: false
+          show_state: '[[[ return (entity.state == "on");]]]'
+          tap_action:
+            action: none
+          styles:
+            card:
+              - box-shadow: none
+              - filter: opacity(50%)
+              - border-width: 0
+              - "--mdc-ripple-press-opacity": 0
+              - padding-right: 10px;
+            state:
+              - font-size: 18px
+            grid:
+              - grid-template-areas: s
+              - grid-template-columns: min-content
+              - grid-template-rows: min-content
