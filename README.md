@@ -3,23 +3,26 @@
 ![Build status](https://github.com/marek-polak/hunter-wifi/actions/workflows/pr.yml/badge.svg?branch=master)
 
 # INFO
+
 This is a fork of [@Ecodina](https://ecodina.github.io/hunter-wifi)'s repository with few custom instructions how to get it working for my setup: internal unit XCORE 401 with 3 active sections (of total 4 available).
 
- Parts used:
- - Hunter XCORE 401
- - [Lolin WEMOS D1 mini Pro](https://www.wemos.cc/en/latest/d1/d1_mini_pro.html)
- - 5V DC Micro-USB power supply
- - 3-wire jumper cable
+Parts used:
+
+- Hunter XCORE 401
+- [Lolin WEMOS D1 mini Pro](https://www.wemos.cc/en/latest/d1/d1_mini_pro.html)
+- 5V DC Micro-USB power supply
+- 3-wire jumper cable
 
 ## Software installation
 
-Easiest way to install was through [esphome.io](https://web.esphome.io/?dashboard_install) website. Just connect the board using usb cable to the PC, select serial device and upload the [binary file](https://github.com/ecodina/hunter-wifi/releases/tag/v1.0.0) to the board.
+Easiest way to install was through [esphome.io](https://web.esphome.io/?dashboard_install) website. Connect the board using usb cable to the PC, select serial device and upload the [binary file](https://github.com/ecodina/hunter-wifi/releases/tag/v1.0.0) to the board.
 
 > Current master doesn't seem to be working properly, either web-interface, nor mqtt. So for the time being, stick with v1.0.0 - https://github.com/ecodina/hunter-wifi/releases/tag/v1.0.0
 
 After startup, connect to the `WateringSystemAP` and setup up the WIFI & MQTT credentials:
 
 ```
+# My MQTT server (mosquitto) runs on RaspberryPi and requires authentification
 # MQTT server URL, local DNS name can be used
 server: 'raspi3b.local'
 
@@ -36,47 +39,41 @@ Contrary to the info in the [docs](docs/pages/hunterconnection.md), with this ve
 
 Mine runs on **-3.3V**, therefore it is enough to connect the `3V3` pin of esp board to the common ground (`AC#2`).
 
-Wiring is displayed on following diagram (obtained from [loullingen.lu](https://www.loullingen.lu/projekte/Hunter/index.php?language=EN), where a lot of other important info about the topic could be found):
+Wiring is displayed on following diagram (obtained from [loullingen.lu](https://www.loullingen.lu/projekte/Hunter/index.php?language=EN), with plenty of other important info about the topic):
 
- ![Wiring - obtained from loullingen.lu](/docs/images/hunter_esp8266_wiring_loullingen.lu.png "Wiring - obtained from loullingen.lu")
+![Wiring - obtained from loullingen.lu](/docs/images/hunter_esp8266_wiring_loullingen.lu.png "Wiring - obtained from loullingen.lu")
 
 ### My actual setup looks like this:
- - white wire is used to control the REM port, connects to `GPIO16 / D0` on the board
- - black wire connects `3V3` GPIO with common ground (`AC#2`)
- - red wire was used to split 5V voltage from micro USB charged, is unused and can be ignored.
 
- ![XCORE 401 - actual setup](/docs/images/hunter-xcore-401-actual-setup.jpg "XCORE 401 - actual setup")
+- white wire is used to control the REM port, connects to `GPIO16 / D0` on the board
+- black wire connects `3V3` GPIO with common ground (`AC#2`)
+- red wire was used to split 5V voltage from micro USB charged, is unused and can be ignored.
 
+![XCORE 401 - actual setup](/docs/images/hunter-xcore-401-actual-setup.jpg "XCORE 401 - actual setup")
 
 ## Integration into Home Assistant:
 
 Integration is based on [this post](https://community.home-assistant.io/t/irrigation-hunter-x-core-remote-control-using-rem-pin/320786/21)
-and enables controlling the Hunter from Home Assistant interface.
+and enables control of Hunter from Home Assistant interface.
 
 ### Features:
- - select zone and set irrigation time
- - trigger/toggle irrigation of selected zone
- - display countdown (remaining irrigation time)
- - display active zone
- - displays MQTT response from controller
 
-Detailed infos how to setup sensors, automation and ui si defined [here](docs/pages/homeassistant_setup.md).
+- select zone and set irrigation time
+- trigger/toggle irrigation of selected zone
+- display countdown (remaining irrigation time)
+- display active zone
+- displays MQTT response from controller
 
+Detailed info how to setup sensors, automation and UI is defined [here](docs/pages/homeassistant_setup.md).
 
 ### Showcase:
 
-⠀                          |             ⠀
-:-------------------------:|:-------------------------:
-![zone 3 running](/docs/images/ha/ha_integration_3.png "Home Assistant - zone 3 irrigation running") | ![zone 3 stopped](/docs/images/ha/ha_integration_4.png "Home Assistant - zone 3 stopped, irrigation idle")
-![zone 1 selected](/docs/images/ha/ha_integration_1.png "Home Assistant - zone 1 selected") | ![select zone](/docs/images/ha/ha_integration_2.png "Home Assistant - choose zone from dropdown")
+|                                                  ⠀                                                   |                                                     ⠀                                                      |
+| :--------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: |
+| ![zone 3 running](/docs/images/ha/ha_integration_3.png "Home Assistant - zone 3 irrigation running") | ![zone 3 stopped](/docs/images/ha/ha_integration_4.png "Home Assistant - zone 3 stopped, irrigation idle") |
+|     ![zone 1 selected](/docs/images/ha/ha_integration_1.png "Home Assistant - zone 1 selected")      |     ![select zone](/docs/images/ha/ha_integration_2.png "Home Assistant - choose zone from dropdown")      |
 
-
-
-
-----  
-
-
-
+---
 
 # Original @Ecodina's intro & readme:
 
@@ -98,9 +95,10 @@ You will also need a floating power source (e.g. mobile phone charger).
 In total, you will spend ~10€ to give WiFi capabilities to your old Hunter.
 
 ## Try it yourself
+
 Download this project and [upload it to your board](docs/pages/buildupload.md). Afterwards, connect the microcontroller to the SmartPort (see how in the [docs](docs/pages/hunterconnection.md) folder).
 
-The first time you power it, a "*WateringSystemAP*" open WiFi access point will be created. Connect to it and your phone will ask to "sign-in". Click on the notification and follow the steps to connect to your home WiFi. If nothing happens when you connect to the AP, navigate to 192.168.4.1.
+The first time you power it, a "_WateringSystemAP_" open WiFi access point will be created. Connect to it and your phone will ask to "sign-in". Click on the notification and follow the steps to connect to your home WiFi. If nothing happens when you connect to the AP, navigate to 192.168.4.1.
 
 When the board is connected to your home router, you will have an easy to use HTTP API (endpoints in the [docs](docs/pages/api.md) folder).
 
@@ -112,11 +110,11 @@ You can change the AP's SSID and password-protect it by changing the values in `
 
 Feel free to fork this project and improve it. Some things that would be good to have are:
 
- - [x] Use of MQTT protocol.
- - [ ] API authentication.
- - [x] mDNS (easier to discover your device by using a `.local` domain).
- - [ ] Webpage (it only has an API).
- - [x] OTA support
+- [x] Use of MQTT protocol.
+- [ ] API authentication.
+- [x] mDNS (easier to discover your device by using a `.local` domain).
+- [ ] Webpage (it only has an API).
+- [x] OTA support
 
 ## License
 
@@ -124,16 +122,16 @@ Given that [Sebastien](https://github.com/seb821/OpenSprinkler-Firmware-Hunter) 
 
     Hunter Roam - WiFi
     Copyright (C) 2020-2022  Eloi Codina Torras
-    
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
-    
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
-    
+
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.

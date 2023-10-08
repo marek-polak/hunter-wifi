@@ -53,11 +53,6 @@ action:
     data_template:
       entity_id: input_text.zone_action_result
       value: "{{ trigger.payload_json.action }} ({{trigger.payload_json.result }})"
-  - service: homeassistant.update_entity
-    data:
-      trigger.payload_json: null
-    target:
-      entity_id: binary_sensor.zone_status
 mode: single
 ```
 
@@ -96,7 +91,6 @@ input_select:
     name: Irrigate zone
     options:
       - zone1
-      - zone2
       - zone2
       - zone3
       - zone4
@@ -200,11 +194,7 @@ switch:
             data:
               value: inactive
         icon_template: >-
-          {% if is_state('switch.irrigate_lawn', 'on') %}
           mdi:water-pump
-          {% else %}
-          mdi:water-pump-off
-          {% endif %}
 ```
 
 ## Irrigation control card (user interface)
