@@ -233,7 +233,7 @@ Control is made of several cards divided into 3 rows:
        response: input_text.zone_action_result # inputtext entity from configuration.yaml
      ```
 
-YAML config for the whole looks like this (english version is available in [irrigation-control.en.yaml](docs/scripts/irrigation-control.en.yaml)):
+YAML config for the whole looks like this (english version is available in [irrigation-control.en.yaml](/docs/scripts/irrigation-control.en.yaml)):
 
 ```yaml
 type: vertical-stack
@@ -322,7 +322,7 @@ Go to **raw configuration editor** for dashboard:
 
 ![dashboard ](/docs/images/ha/dashboard_options.png "HA - dashboard - raw configuration editor ")
 
-and manually paste into file (english version is available in [custom-button-card-templates.en.yaml](docs/scripts/custom-button-card-templates.en.yaml)):
+and manually paste into file (english version is available in [custom-button-card-templates.en.yaml](/docs/scripts/custom-button-card-templates.en.yaml)):
 
 ```yaml
 button_card_templates:
