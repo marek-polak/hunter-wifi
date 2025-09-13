@@ -11,13 +11,13 @@ alias: Irrigation On
 mode: single
 icon: mdi:water-pump
 sequence:
-  - service: mqtt.publish
-    data_template:
-      topic_template: hunter/X-CORE/zone/{{ states('sensor.irrigate_map_zone') }}
-      payload_template: >
+  - data_template:
+      topic: hunter/X-CORE/zone/{{ states('sensor.irrigate_map_zone') }}
+      payload: >
         { "action": "start", "time": {{ states('input_number.irrigate_timer_' ~
         states('sensor.irrigate_map_zone')) | int }} }
     enabled: true
+    action: mqtt.publish
 ```
 
 ### Irrigation Off
@@ -27,12 +27,11 @@ alias: Irrigation Off
 mode: single
 icon: mdi:water-pump-off
 sequence:
-  - service: mqtt.publish
-    data_template:
-      topic_template: hunter/X-CORE/zone/{{ states('input_text.irrigation_active_zone') }}
-      payload_template: |
-        { "action": "stop" }
+  - data:
+      topic: "hunter/X-CORE/zone/{{ states('input_text.irrigation_active_zone') }}"
+      payload: '{ "action": "stop" }'
     enabled: true
+    action: mqtt.publish
 ```
 
 ## Automations
@@ -43,16 +42,16 @@ There are 2 separate automations, one is used to listen to specific MQTT topic, 
 
 ```yaml
 alias: mqtt_hook_Irrigation
-description: "MQTT listener which receives response about triggered irrigation command. "
+description: "MQTT listener which receives response about triggered irrigation command."
 trigger:
   - platform: mqtt
     topic: hunter/X-CORE/result
 condition: []
 action:
   - service: input_text.set_value
-    data_template:
+    data:
       entity_id: input_text.zone_action_result
-      value: "{{ trigger.payload_json.action }} ({{trigger.payload_json.result }})"
+      value: "{{ trigger.payload_json.action }} ({{ trigger.payload_json.result }})"
 mode: single
 ```
 
