@@ -10,6 +10,7 @@
 #include <telnet_logger.h>
 #include <time_sync.h>
 #include <web_server.h>
+#include <web_server_scheduled.h>
 #include <wifi.h>
 
 AsyncWebServer server = AsyncWebServer(80);
@@ -215,6 +216,7 @@ void loop() {
       }
     }
     client.loop();
+    checkScheduledZoneStop();
   }
   // wifiDisconnected = checkWifiConnection(wifiDisconnected);
   MDNS.update();
