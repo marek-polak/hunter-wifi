@@ -1,47 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/base-min.css">
-    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css" crossorigin="anonymous">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run Single Zone - Sprinkler Controller</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        nav {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        nav .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        nav h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        nav a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        nav a.active {
+            background: rgba(255,255,255,0.2);
+        }
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .card h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            width: 100%;
+        }
+        button:hover {
+            background: #c0392b;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+        #result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border-radius: 4px;
+            display: none;
+        }
+        #result.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        #result.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        #result.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            display: block;
+        }
+        .version-footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+            font-size: 0.85rem;
+            color: #666;
+            text-align: center;
+        }
+    </style>
 </head>
-
 <body>
-    <div class="pure-menu pure-menu-horizontal" style="height:50px">
-        <ul class="pure-menu-list">
-            <li class="pure-menu-item">
-                <a href="/update" class="pure-menu-link">Update</a>
-            </li>
-            <li class="pure-menu-item">
-                <a href="/program" class="pure-menu-link">Run Program</a>
-            </li>
-            <li class="pure-menu-item">
-                <a href="/zone" class="pure-menu-link">Run Single Zone</a>
-            </li>
-        </ul>
+    <nav>
+        <div class="container">
+            <h1>ESP8266 Sprinkler Controller</h1>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/program">Run Program</a></li>
+                <li><a href="/zone" class="active">Run Zone</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/update">Update</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="card">
+            <h2>Run Single Zone</h2>
+            <form id="zone-control">
+                <div class="form-group">
+                    <label for="zone">Zone Number</label>
+                    <input type="number" id="zone" name="zone" placeholder="Enter zone number" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="time">Run Time (minutes)</label>
+                    <input type="number" id="time" name="time" placeholder="Enter duration in minutes" min="1" required>
+                </div>
+                <button type="submit">Start Zone</button>
+            </form>
+            <div id="result"></div>
+        </div>
+        <footer class="version-footer">Firmware <span id="firmware-version">—</span></footer>
     </div>
-    <form id="zone-control" class="pure-form-stacked">
-        <fieldset>
-            <legend id="title">Run Single Zone</legend>
-            <input type="text" id="zone" placeholder="Zone">
-            <br /><input type="text" name="time" placeholder="Run Time">
-            <button type="submit" class="pure-button pure-button-primary">Submit</button>
-        </fieldset>
-    </form>
-    <div id="result"></div>
+    <script>
+        (function(){
+            var el = document.getElementById('firmware-version');
+            if (!el) return;
+            fetch('api/version').then(function(r){
+                if (!r.ok) throw new Error(r.status);
+                var ct = r.headers.get('content-type') || '';
+                if (ct.indexOf('application/json') === -1) throw new Error('not json');
+                return r.json();
+            }).then(function(d){
+                el.textContent = (d.version || '?') + ' (built ' + (d.build || '') + ')';
+            }).catch(function(){
+                el.textContent = '? — upload firmware.bin (no "spiffs" in name) via Update, then refresh';
+            });
+        })();
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
             $("#zone-control").submit(function(event) {
                 event.preventDefault();
-                console.log("api/start/zone/" + $("#zone").val() + $("#zone-control").serialize());
-                $.get("api/start/zone/" + $("#zone").val(), $("#zone-control").serialize(),
-                    function(data, textStatus, jqXHR) {
-                        console.log(data);
-                        $('#result').text(data.status);
-                    },
-                    "json"
-                );
-
+                
+                var zone = $("#zone").val();
+                var time = $("#time").val();
+                
+                if (!zone || !time) {
+                    showResult("Please fill in all fields", "error");
+                    return;
+                }
+                
+                var $button = $(this).find("button");
+                $button.prop("disabled", true).text("Starting...");
+                $("#result").removeClass("success error info").hide();
+                
+                $.get("api/start/zone/" + zone, { time: time })
+                    .done(function(data) {
+                        showResult("Zone " + zone + " started for " + time + " minutes", "success");
+                    })
+                    .fail(function(xhr) {
+                        var message = "Failed to start zone";
+                        if (xhr.responseJSON && xhr.responseJSON.status) {
+                            message = xhr.responseJSON.status;
+                        }
+                        showResult(message, "error");
+                    })
+                    .always(function() {
+                        $button.prop("disabled", false).text("Start Zone");
+                    });
             });
+            
+            function showResult(message, type) {
+                $("#result")
+                    .removeClass("success error info")
+                    .addClass(type)
+                    .text(message)
+                    .show();
+            }
         });
     </script>
 </body>
+</html>
