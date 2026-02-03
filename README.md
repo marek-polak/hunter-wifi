@@ -73,6 +73,44 @@ Detailed info how to setup sensors, automation and UI is defined [here](docs/pag
 | ![zone 3 running](/docs/images/ha/ha_integration_3.png "Home Assistant - zone 3 irrigation running") | ![zone 3 stopped](/docs/images/ha/ha_integration_4.png "Home Assistant - zone 3 stopped, irrigation idle") |
 |     ![zone 1 selected](/docs/images/ha/ha_integration_1.png "Home Assistant - zone 1 selected")      |     ![select zone](/docs/images/ha/ha_integration_2.png "Home Assistant - choose zone from dropdown")      |
 
+## Remote Logging via Telnet
+
+The controller now supports remote logging through telnet, allowing you to monitor device logs over the network without needing a USB connection.
+
+### Quick Start
+
+Simply connect to your device using telnet:
+
+```bash
+telnet <device-ip-address>
+```
+
+You'll see real-time logs with timestamps, including MQTT messages, zone commands, system events, and more. Up to 2 simultaneous connections are supported.
+
+For detailed information, see the [Telnet Logging documentation](docs/pages/telnet_logging.md).
+
+## NTP Time Synchronization
+
+The controller automatically synchronizes time via NTP when connected to WiFi, providing accurate timestamps for all logs.
+
+### Features
+- Automatic NTP sync on boot
+- Configurable timezone via API
+- Timestamps in all logs (telnet, serial, syslog)
+- Default: Argentina/Buenos Aires (UTC-3)
+
+### Configure Timezone
+
+```bash
+# Check current time status
+curl http://<device-ip>/api/time/status
+
+# Update timezone
+curl -X POST http://<device-ip>/api/config/timezone -d "timezone=<-03>3"
+```
+
+For timezone strings and detailed information, see the [Time Sync documentation](docs/pages/time_sync.md).
+
 ---
 
 # Original @Ecodina's intro & readme:
