@@ -84,3 +84,18 @@ It returns a JSON containing:
 GET /api/start/program/2?result=https%3A%2F%2Fexample.com%2Fwebhook
 
 It will start program 2 (Hunter's *B*) and send the result to https://example.com/webhook
+
+## Endpoint to update syslog configuration
+
+POST /api/config/syslog
+
+- **Required parameter**: `server` (syslog server IP or hostname, e.g. for Synology Log Center)
+- **Optional parameters**: `port` (default 514), `enable` ("1"/"true" to enable, "0"/"false" to disable)
+- Saves to `/config.json` and applies immediately. Logs are sent in BSD (RFC 3164) format over UDP with tag `hunterwifi`.
+
+**Example**
+
+```bash
+curl -X POST "http://X-CORE.local/api/config/syslog" \
+  -d "server=172.16.1.20&port=514&enable=1"
+```
