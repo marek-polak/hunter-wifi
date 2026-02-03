@@ -15,5 +15,6 @@ struct WebInterface
 void handleHomePage(AsyncWebServerRequest *request);
 void handleRunZone(AsyncWebServerRequest *request);
 void handleRunProgram(AsyncWebServerRequest *request);
+void handleSettings(AsyncWebServerRequest *request);
 
 #endif
