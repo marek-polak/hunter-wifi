@@ -1,6 +1,7 @@
 #ifndef GLOBAL_CONFIG_H
 #define GLOBAL_CONFIG_H
 
+#define FIRMWARE_VERSION "2.0.0"
 #define SERIAL_SPEED 9600
 #define REM_PIN 16
 
